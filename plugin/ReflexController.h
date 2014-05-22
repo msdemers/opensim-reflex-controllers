@@ -1,7 +1,7 @@
 #ifndef OPENSIM_ReflexController_H_
 #define OPENSIM_ReflexController_H_
 /* -------------------------------------------------------------------------- *
- *                       OpenSim:  ReflexController.h                             *
+ *                       OpenSim:  ReflexController.h                         *
  * -------------------------------------------------------------------------- *
  * The OpenSim API is a toolkit for musculoskeletal modeling and simulation.  *
  * See http://opensim.stanford.edu and the NOTICE file for more information.  *

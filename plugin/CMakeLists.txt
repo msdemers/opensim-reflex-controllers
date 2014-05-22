@@ -1,4 +1,4 @@
-Project(CustomControllersPlugin)
+Project(ReflexControllersPlugin)
 
 cmake_minimum_required(VERSION 2.6)
 if(COMMAND cmake_policy)
@@ -23,14 +23,12 @@ SET(EXPORT_MACRO OSIM${UKIT}_EXPORTS)
 SET(OPENSIM_INSTALL_DIR $ENV{OPENSIM_HOME} 
 		CACHE PATH "Top-level directory of OpenSim install")
 
-SET(PLUGIN_NAME "CustomControllersPlugin" CACHE STRING "Name of shared library to create")
+SET(PLUGIN_NAME "ReflexControllersPlugin" CACHE STRING "Name of shared library to create")
 
 ### HEADERS
 SET(OPENSIM_HEADERS_DIR ${OPENSIM_INSTALL_DIR}/sdk/include)
-###SET(XERCES_HEADER_DIR ${OPENSIM_INSTALL_DIR}/sdk/include/xercesc)
 SET(SIMTK_HEADERS_DIR ${OPENSIM_INSTALL_DIR}/sdk/include/SimTK/include)
 
-###INCLUDE_DIRECTORIES(${OPENSIM_HEADERS_DIR} ${XERCES_HEADER_DIR} ${SIMTK_HEADERS_DIR})
 INCLUDE_DIRECTORIES(${OPENSIM_HEADERS_DIR} ${SIMTK_HEADERS_DIR})
 
 ### LIBRARIES
@@ -47,7 +45,6 @@ LINK_LIBRARIES(
 	debug  ${NameSpace}SimTKcommon${CMAKE_DEBUG_POSTFIX} optimized   ${NameSpace}SimTKcommon
 	debug  ${NameSpace}SimTKmath${CMAKE_DEBUG_POSTFIX} optimized  ${NameSpace}SimTKmath
 	debug ${NameSpace}SimTKsimbody${CMAKE_DEBUG_POSTFIX} optimized  ${NameSpace}SimTKsimbody
-	SimTKlapack pthreadVC2
 )
 
 ADD_LIBRARY(${PLUGIN_NAME} SHARED ${SOURCE_FILES} ${INCLUDE_FILES}) 

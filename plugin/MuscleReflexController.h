@@ -1,7 +1,7 @@
 #ifndef OPENSIM_MuscleReflexController_H_
 #define OPENSIM_MuscleReflexController_H_
 /* -------------------------------------------------------------------------- *
- *                       OpenSim:  MuscleReflexController.h                             *
+ *                       OpenSim:  MuscleReflexController.h                   *
  * -------------------------------------------------------------------------- *
  * The OpenSim API is a toolkit for musculoskeletal modeling and simulation.  *
  * See http://opensim.stanford.edu and the NOTICE file for more information.  *
