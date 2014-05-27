@@ -1,7 +1,7 @@
 #ifndef OPENSIM_CoordActController_H_
 #define OPENSIM_CoordActController_H_
 /* -------------------------------------------------------------------------- *
- *                       OpenSim:  CoordActController.h                             *
+ *                       OpenSim:  CoordActController.h                       *
  * -------------------------------------------------------------------------- *
  * The OpenSim API is a toolkit for musculoskeletal modeling and simulation.  *
  * See http://opensim.stanford.edu and the NOTICE file for more information.  *
@@ -10,7 +10,7 @@
  * through the Warrior Web program.                                           *
  *                                                                            *
  * Copyright (c) 2005-2012 Stanford University and the Authors                *
- * Author(s): Ajay Seth     *
+ * Author(s): Matt DeMers     *
  *                                                                            *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may    *
  * not use this file except in compliance with the License. You may obtain a  *
@@ -58,13 +58,13 @@ public:
     These are the serializable properties associated with a CoordActController.*/
     /**@{**/  	
 	OpenSim_DECLARE_PROPERTY(Kp, double, 
-		"Factor by which the stretch response is scaled." );
+		"Gain on position error" );
 	OpenSim_DECLARE_PROPERTY(Kv, double, 
-		"Factor by which the stretch response is scaled." );
+		"Gain on velocity error" );
 	OpenSim_DECLARE_PROPERTY(AngleThresh, double, 
-		"Factor by which the stretch response is scaled." );
+		"Minimum position error to produce a feedback signal" );
 	OpenSim_DECLARE_PROPERTY(VelThresh, double, 
-		"Factor by which the stretch response is scaled." );
+		"Minimum position error to produce a feedback signal" );
 
 //=============================================================================
 // METHODS

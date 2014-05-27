@@ -37,6 +37,7 @@ OSIMPLUGIN_API void RegisterTypes_osimPlugin();
 
 }
 
+/** @cond **/ // hide from Doxygen
 class dllObjectInstantiator 
 { 
 public: 
@@ -45,7 +46,7 @@ private:
         void registerDllClasses(); 
 }; 
     
-
+/** @endcond **/ 
 #endif // _RegisterTypes_OsimPlugin_h_
 
 

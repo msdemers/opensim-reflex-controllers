@@ -44,7 +44,7 @@ namespace OpenSim {
  * OpenSim. It is intended for demonstrative purposes only. 
 
  *
- * @author  Ajay Seth
+ * @author  Matt DeMers
  * @version 1.0
  */
 class OSIMPLUGIN_API MuscleReflexController : public Controller {
