@@ -1,7 +1,7 @@
-#ifndef OPENSIM_MuscleReflexController_H_
-#define OPENSIM_MuscleReflexController_H_
+#ifndef OPENSIM_MusclePathStretchController_H_
+#define OPENSIM_MusclePathStretchController_H_
 /* -------------------------------------------------------------------------- *
- *                       OpenSim:  MuscleReflexController.h                   *
+ *                       OpenSim:  MusclePathStretchController.h                   *
  * -------------------------------------------------------------------------- *
  * The OpenSim API is a toolkit for musculoskeletal modeling and simulation.  *
  * See http://opensim.stanford.edu and the NOTICE file for more information.  *
@@ -38,27 +38,36 @@ namespace OpenSim {
 //=============================================================================
 //=============================================================================
 /**
- * MuscleReflexController is a concrete controller that excites muscles in response
- * to muscle lengthening to simulate a stretch reflex. This controller is 
- * meant to serve as an example how to implement a controller as a plugin in
- * OpenSim. It is intended for demonstrative purposes only. 
+ * MusclePathStretchController is a concrete controller that excites muscles in response
+ * to muscle lengthening to simulate. Thus, it behaves like a simple stretch reflex. 
+ * This controller responds to non-zero lengthening velocities and to stretch lengths 
+ * beyond the specified normalized_rest_length.  Since this controller monitors the 
+ * entire muscle path (muscle fiber + tendon), the provided rest length is interpretted 
+ * as a ratio of desired path rest length to muscle neutral length 
+ * (fiber length + tendon slack length).
 
  *
  * @author  Matt DeMers
  * @version 1.0
  */
-class OSIMPLUGIN_API MuscleReflexController : public Controller {
-OpenSim_DECLARE_CONCRETE_OBJECT(MuscleReflexController, Controller);
+class OSIMPLUGIN_API MusclePathStretchController : public Controller {
+OpenSim_DECLARE_CONCRETE_OBJECT(MusclePathStretchController, Controller);
 
 public:
 //=============================================================================
 // PROPERTIES
 //=============================================================================
     /** @name Property declarations 
-    These are the serializable properties associated with a MuscleReflexController.*/
+    These are the serializable properties associated with a MusclePathStretchController.*/
     /**@{**/  	
-	OpenSim_DECLARE_PROPERTY(gain, double, 
-		"Factor by which the stretch response is scaled." );
+	OpenSim_DECLARE_PROPERTY(gain_length, double, 
+		"Control gain applied to stretch length" );
+	OpenSim_DECLARE_PROPERTY(gain_velocity, double,
+		"Control gain applied to stretch velocity");
+	OpenSim_DECLARE_PROPERTY(normalized_rest_length, double,
+		"The intended rest length of the muscle, after which the,"
+		" controller responds to stretch. Rest length is interpreted as a "
+		"ratio of the muscle rest length to the muscle neutral length.");
 
 //=============================================================================
 // METHODS
@@ -67,17 +76,19 @@ public:
 	// CONSTRUCTION AND DESTRUCTION
 	//--------------------------------------------------------------------------
 	/** Default constructor. */
-	MuscleReflexController();
+	MusclePathStretchController();
 	// Uses default (compiler-generated) destructor, copy constructor and copy 
     // assignment operator.
 
 	/** Convenience constructor 
-	* @param gain		gain on the stretch response
+	* @param rest_length desired length of the muscle
+	* @param gain_l		gain on the stretch length response
+	* @param gain_v     gain on the stretch velocity response
 	*/
-	MuscleReflexController(double gain);
+	MusclePathStretchController(double rest_length, double gain_l, double gain_v);
 
 	/** Compute the controls for actuators (muscles)
-	 *  This method defines the behavior for MuscleReflexController controller 
+	 *  This method defines the behavior for MusclePathStretchController controller 
 	 *
 	 * @param s			system state 
 	 * @param controls	writable model controls
@@ -88,16 +99,17 @@ public:
 private:
 	// Connect properties to local pointers.  */
 	void constructProperties();
+
 	// ModelComponent interface to connect this component to its model
 	void connectToModel(Model& aModel);
 
 	//=============================================================================
-};	// END of class MuscleReflexController
+};	// END of class MusclePathStretchController
 
 }; //namespace
 //=============================================================================
 //=============================================================================
 
-#endif // OPENSIM_MuscleReflexController_H_
+#endif // OPENSIM_MusclePathStretchController_H_
 
 

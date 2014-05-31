@@ -26,7 +26,8 @@
 #include "RegisterTypes_osimPlugin.h"
 
 #include "ReflexController.h"
-#include "MuscleReflexController.h"
+#include "MusclePathStretchController.h"
+#include "MuscleFiberStretchController.h"
 #include "CoordActController.h"
 
 using namespace OpenSim;
@@ -42,7 +43,8 @@ static dllObjectInstantiator instantiator;
 OSIMPLUGIN_API void RegisterTypes_osimPlugin()
 {
 	Object::RegisterType( ReflexController() );
-    Object::RegisterType( MuscleReflexController() );
+	Object::RegisterType(MusclePathStretchController());
+	Object::RegisterType(MuscleFiberStretchController());
 	Object::RegisterType( CoordActController() );
 }
 
