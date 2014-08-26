@@ -1,5 +1,5 @@
-#ifndef _osimPluginDLL_h_
-#define _osimPluginDLL_h_
+#ifndef _osimReflexesDLL_h_
+#define _osimReflexesDLL_h_
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 /*
 * Copyright (c)  2005, Stanford University. All rights reserved. 
@@ -30,7 +30,7 @@
 // UNIX PLATFORM
 #ifndef WIN32
 
-#define OSIMPLUGIN_API
+#define OSIMREFLEXES_API
 
 // WINDOWS PLATFORM
 #else
@@ -38,13 +38,13 @@
 #define WIN32_LEAN_AND_MEAN
 #define NOMINMAX
 #include <windows.h>
-#ifdef OSIMPLUGIN_EXPORTS
-#define OSIMPLUGIN_API __declspec(dllexport)
+#ifdef OSIMREFLEXES_EXPORTS
+#define OSIMREFLEXES_API __declspec(dllexport)
 #else
-#define OSIMPLUGIN_API __declspec(dllimport)
+#define OSIMREFLEXES_API __declspec(dllimport)
 #endif
 
 #endif // PLATFORM
 
 
-#endif // __osimPluginDLL_h__
+#endif // __osimReflexesDLL_h__

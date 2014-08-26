@@ -6,8 +6,8 @@ if(COMMAND cmake_policy)
         cmake_policy(SET CMP0005 NEW)
 endif(COMMAND cmake_policy)
 
-SET(KIT plugin)
-SET(UKIT PLUGIN)
+SET(KIT reflexes)
+SET(UKIT REFLEXES)
 
 SET(NameSpace "OpenSim_" CACHE STRING 
    "Prefix for Simbody/SimTK lib names, includes trailing '_'. Set to '' to use stock libraries.")
@@ -62,5 +62,12 @@ SET_TARGET_PROPERTIES(
 	DEFINE_SYMBOL ${EXPORT_MACRO}
 	PROJECT_LABEL "Libraries - ${PLUGIN_NAME}")
 
-INSTALL_TARGETS(/plugins RUNTIME_DIRECTORY /plugins  ${PLUGIN_NAME})
+#INSTALL_TARGETS(/plugins RUNTIME_DIRECTORY /plugins  ${PLUGIN_NAME})
+INSTALL(TARGETS ${PLUGIN_NAME} 
+        RUNTIME DESTINATION ${OPENSIM_INSTALL_DIR}/plugins
+        LIBRARY DESTINATION ${OPENSIM_INSTALL_DIR}/plugins
+        ARCHIVE DESTINATION ${OPENSIM_LIBS_DIR}
+        )
+
+INSTALL(FILES ${INCLUDE_FILES} DESTINATION ${OPENSIM_HEADERS_DIR})
 

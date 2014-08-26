@@ -1,5 +1,5 @@
-#ifndef _RegisterTypes_OsimPlugin_h_
-#define _RegisterTypes_OsimPlugin_h_
+#ifndef _RegisterTypes_OsimReflexes_h_
+#define _RegisterTypes_OsimReflexes_h_
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 /*
@@ -28,12 +28,12 @@
 *  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#include "osimPluginDLL.h"
+#include "osimReflexesDLL.h"
 
 
 extern "C" {
 
-OSIMPLUGIN_API void RegisterTypes_osimPlugin(); 
+OSIMREFLEXES_API void RegisterTypes_osimReflexesPlugin(); 
 
 }
 
@@ -47,6 +47,6 @@ private:
 }; 
     
 /** @endcond **/ 
-#endif // _RegisterTypes_OsimPlugin_h_
+#endif // _RegisterTypes_OsimReflexes_h_
 
 

@@ -28,7 +28,6 @@
 #include "ReflexController.h"
 #include "MusclePathStretchController.h"
 #include "MuscleFiberStretchController.h"
-#include "CoordActController.h"
 
 using namespace OpenSim;
 using namespace std;
@@ -40,12 +39,11 @@ static dllObjectInstantiator instantiator;
  * The purpose of this routine is to register all class types exported by
  * the Plugin library.
  */
-OSIMPLUGIN_API void RegisterTypes_osimPlugin()
+OSIMREFLEXES_API void RegisterTypes_osimReflexesPlugin()
 {
 	Object::RegisterType( ReflexController() );
 	Object::RegisterType(MusclePathStretchController());
 	Object::RegisterType(MuscleFiberStretchController());
-	Object::RegisterType( CoordActController() );
 }
 
 dllObjectInstantiator::dllObjectInstantiator() 
@@ -55,5 +53,5 @@ dllObjectInstantiator::dllObjectInstantiator()
     
 void dllObjectInstantiator::registerDllClasses() 
 { 
-        RegisterTypes_osimPlugin(); 
+        RegisterTypes_osimReflexesPlugin(); 
 } 

@@ -30,7 +30,7 @@
 #include <OpenSim/Simulation/Control/Controller.h>
 
 // to export class as part of a plugin:
-#include "osimPluginDLL.h" 
+#include "osimReflexesDLL.h" 
 
 
 namespace OpenSim { 
@@ -47,7 +47,7 @@ namespace OpenSim {
  * @author  Ajay Seth
  * @version 1.0
  */
-class OSIMPLUGIN_API ReflexController : public Controller {
+class OSIMREFLEXES_API ReflexController : public Controller {
 OpenSim_DECLARE_CONCRETE_OBJECT(ReflexController, Controller);
 
 public:

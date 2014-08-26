@@ -30,7 +30,7 @@
 #include <OpenSim/Simulation/Control/Controller.h>
 
 // to export class as part of a plugin:
-#include "osimPluginDLL.h" 
+#include "osimReflexesDLL.h" 
 
 
 namespace OpenSim { 
@@ -50,7 +50,7 @@ namespace OpenSim {
  * @author  Matt DeMers
  * @version 1.0
  */
-class OSIMPLUGIN_API MusclePathStretchController : public Controller {
+class OSIMREFLEXES_API MusclePathStretchController : public Controller {
 OpenSim_DECLARE_CONCRETE_OBJECT(MusclePathStretchController, Controller);
 
 public:
