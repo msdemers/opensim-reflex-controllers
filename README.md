@@ -7,7 +7,7 @@ An OpenSim plugin creating various reflex-like controllers for muscles.  Types o
 3. Delayed stretch reflexes (constant time offset)
 
 ###Dependencies
-1. OpenSim 3.2 or above by [https://simtk.org/home/opensim](installing a distribution) or [building from source](https://github.com/opensim-org/opensim-core)
+1. OpenSim 3.2 or above by [installing a distribution](https://simtk.org/home/opensim)or [building from source](https://github.com/opensim-org/opensim-core)
 2. a git client
 3. Source code (git clone https://github.com/msdemers/opensim-reflex-controllers)
 4. [CMake](http://www.cmake.org/)
