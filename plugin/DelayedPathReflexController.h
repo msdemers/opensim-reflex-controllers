@@ -92,8 +92,6 @@ namespace OpenSim {
 		*/
 		void computeControls(const SimTK::State& s, SimTK::Vector &controls) const override;
 
-	protected:
-		void DelayedPathReflexController::realizeVelocity(const SimTK::State& s) const;
 
 	private:
 		// Connect properties to local pointers.  */
@@ -106,10 +104,8 @@ namespace OpenSim {
 		// Private Members
 		//=============================================================================
 		mutable OpenSim::Set<PiecewiseLinearFunction> muscleStretchVelocityHistory;
-		SimTK::Array_<SimTK::MeasureIndex> _indices_muscle_speeds_measures;
-		SimTK::Array_<SimTK::MeasureIndex> _indices_delayed_speeds_measures;
-		SimTK::MeasureIndex _index_time;
-
+        //mutable OpenSim::Set<PiecewiseLinearFunction> delayedMuscleStretchVelocityHistory;
+		
 		//=============================================================================
 	};	// END of class DelayedPathReflexController
 

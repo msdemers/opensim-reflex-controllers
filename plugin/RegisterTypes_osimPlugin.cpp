@@ -28,6 +28,7 @@
 #include "ReflexController.h"
 #include "MusclePathStretchController.h"
 #include "MuscleFiberStretchController.h"
+#include "DelayedPathReflexController.h"
 
 using namespace OpenSim;
 using namespace std;
@@ -44,6 +45,7 @@ OSIMREFLEXES_API void RegisterTypes_osimReflexesPlugin()
 	Object::RegisterType( ReflexController() );
 	Object::RegisterType(MusclePathStretchController());
 	Object::RegisterType(MuscleFiberStretchController());
+    Object::RegisterType(DelayedPathReflexController());
 }
 
 dllObjectInstantiator::dllObjectInstantiator() 

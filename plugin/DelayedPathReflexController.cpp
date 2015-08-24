@@ -69,37 +69,14 @@ void DelayedPathReflexController::addToSystem(SimTK::MultibodySystem& system) co
 	Super::addToSystem(system);
 	DelayedPathReflexController* mutableThis = const_cast<DelayedPathReflexController *>(this);
 
-	// Create underlying simtk measures to compute muscle speeds and the
-	// delayed signal of these speeds.
-	// Since they are used to compute controls, they invalidate the dynamics stage.
-	// These speeds require a state realized to Velocity stage and must be computed after Velocities in 
-	// the MatterSubsystem.  Therefore, we will add the muscleSpeed measure to the force subsytem.
-	// TO DO:  find a better way to order computations appropriately without adding a measure to arbitrary, 
-	// later sybsystems.
 	
+
 	
-	
-	for (int i = 0; i < getActuatorSet().getSize(); ++i)
-	{
-		Measure_<double>::Result muscleSpeed(system.updDefaultSubsystem(), Stage::Velocity, Stage::Acceleration);
-		//Measure_<double>::Result muscleSpeed2(system.updDefaultSubsystem(),
-		//	Stage::Velocity, Stage::Acceleration);
-		mutableThis->_indices_muscle_speeds_measures.push_back(muscleSpeed.getSubsystemMeasureIndex());
-
-		// Create underlying simtk measure to compute delayed muscle lengths
-		Measure_<double>::Delay delayedSpeed(system.updDefaultSubsystem());
-		delayedSpeed.setSourceMeasure(muscleSpeed);
-		delayedSpeed.setDelay(get_delay());
-
-		mutableThis->_indices_delayed_speeds_measures.push_back(delayedSpeed.getSubsystemMeasureIndex());
-
-	}
 
 }
 void DelayedPathReflexController::connectToModel(Model &model)
 {
 	Super::connectToModel(model);
-
 	// get the list of actuators assigned to the reflex controller
 	Set<Actuator>& actuators = updActuators();
 	muscleStretchVelocityHistory.setSize(0);
@@ -138,52 +115,7 @@ void DelayedPathReflexController::connectToModel(Model &model)
 * @param controls	system wide controls to which this controller can add
 */
 
-void DelayedPathReflexController::realizeVelocity(const SimTK::State& state) const
-{
-	DelayedPathReflexController* mutableThis = const_cast<DelayedPathReflexController *>(this);
 
-	// get time
-	double time = state.getTime();
-
-	// get the list of actuators assigned to the reflex controller
-	const Set<Actuator>& actuators = getActuatorSet();
-
-	// First must determine each muscles lengthening speed and store it in the measure's result
-	//-----------------------------------------------------------------------------------------
-	// muscle lengthening speed
-	double speed = 0;
-	// muscle length
-	double length = 0;
-	// max muscle lengthening (stretch) speed
-	double max_speed = 0;
-	// normalized and positive (lengthening) path speed
-	double normalized_speed;
-	//reflex control
-	double control = 0;
-
-	//SimTK::Vector normalized_speeds(actuators.getSize());
-	
-	for (int i = 0; i < actuators.getSize(); ++i){
-		const Muscle *musc = dynamic_cast<const Muscle*>(&actuators[i]);
-		//speed = musc->getLengtheningSpeed(state);
-		length = musc->getLength(state);
-
-		//// unnormalize muscle's maximum contraction velocity (fib_lengths/sec) 
-		max_speed = musc->getOptimalFiberLength()*musc->getMaxContractionVelocity();
-		//// only positive (lengthening) velocity produces a stretch signal
-		normalized_speed = 0.5*(fabs(speed) + speed) / max_speed;
-		//muscleStretchVelocityHistory.get(musc->getName()).addPoint(time, normalized_speed);
-		// assume that the number and order of muscles does not change
-		// store the muscle lengthening speeds in a vecotor
-		// Prepare to access and modify the muscle measures in the simtk system
-		Measure_<double>::Result muscleSpeed = Measure_<double>::Result::getAs(getModel().getMultibodySystem().getDefaultSubsystem().getMeasure(_indices_muscle_speeds_measures[i]));
-		//Measure_<double>::Result muscleSpeed = Measure_<double>::Result::getAs(updSystem().updDefaultSubsystem().getMeasure(_indices_muscle_speeds_measures[i]));
-		//muscleSpeed.setValue(state,normalized_speed);
-		muscleSpeed.setValue(state, length);
-
-	}
-
-}
 //_____________________________________________________________________________
 /**
 * Compute the controls for muscles under influence of this reflex controller
@@ -212,7 +144,7 @@ void DelayedPathReflexController::computeControls(const State& s, Vector &contro
 	//reflex control
 	double control = 0;
 
-	SimTK::Vector normalized_speeds(actuators.getSize()), delayed_speeds(actuators.getSize());
+	//SimTK::Vector normalized_speeds(actuators.getSize()), delayed_speeds(actuators.getSize());
 	
 	for (int i = 0; i < actuators.getSize(); ++i){
 		const Muscle *musc = dynamic_cast<const Muscle*>(&actuators[i]);
@@ -224,34 +156,19 @@ void DelayedPathReflexController::computeControls(const State& s, Vector &contro
 		muscleStretchVelocityHistory.get(musc->getName()).addPoint(time, normalized_speed);
 		// assume that the number and order of muscles does not change
 		
-		control = get_gain()*muscleStretchVelocityHistory.get(musc->getName()).calcValue(SimTK::Vector(1, time - get_delay()));
+        if ((time - get_delay()) < muscleStretchVelocityHistory.get(musc->getName()).getXValues()[0]) {
+            // if the delayed signal we need occured earlier than our recorded history, asume the signal is zero
+            control = 0;
+        }
+        else {
+            control = get_gain()*muscleStretchVelocityHistory.get(musc->getName()).calcValue(SimTK::Vector(1, time - get_delay()));
+        }
 
 		SimTK::Vector actControls(1, control);
 		// add reflex controls to whatever controls are already in place.
 		musc->addInControls(actControls, controls);
 	}
 
-	/*
-	//  Retrieve all the delayed, scaleed muscle speeds from the measure
-	//  Assign the delayed, scaled muscle speeds as the control values
-	double control;
-	double speed;
-	for (int i = 0; i < actuators.getSize(); ++i)
-	{
-		const Muscle *musc = dynamic_cast<const Muscle*>(&actuators[i]);
-
-		// Prepare to access and modify the muscle measures in the simtk system
-		//Measure_<double>::Result muscleSpeed = Measure_<double>::Result::getAs(updSystem().updDefaultSubsystem().getMeasure(_indices_muscle_speeds_measures[i]));
-		Measure_<double>::Delay delayedSpeed = Measure_<double>::Delay::getAs(updSystem().updDefaultSubsystem().getMeasure(_indices_delayed_speeds_measures[i]));
-
-		//control = get_gain()*muscleStretchVelocityHistory.get(musc->getName()).calcValue(SimTK::Vector(1,time - get_delay()));
-		//speed = muscleSpeed.getValue(s);
-		control = get_gain()*delayedSpeed.getValue(s);
-
-		SimTK::Vector actControls(1, control);
-		// add reflex controls to whatever controls are already in place.
-		musc->addInControls(actControls, controls);
-	}
-	*/
+	
 }
 
